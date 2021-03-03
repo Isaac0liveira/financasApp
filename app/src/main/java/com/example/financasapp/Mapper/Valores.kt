@@ -1,6 +1,8 @@
 package com.example.financasapp.Mapper
 
-class Valores {
+import java.io.Serializable
+
+class Valores: Serializable {
 
     var tipo: String? = null
 
@@ -15,5 +17,7 @@ class Valores {
     var dataSet: String? = null
 
     var note: String? = null
+
+    var categoria: String? = null
 
 }

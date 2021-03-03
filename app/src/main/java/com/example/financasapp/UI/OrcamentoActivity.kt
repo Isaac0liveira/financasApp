@@ -1,36 +1,38 @@
-package com.example.financasapp
+package com.example.financasapp.UI
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
-import android.util.Log
-import android.view.ContextMenu
-import android.view.MenuInflater
 import android.view.View
 import android.view.animation.AnimationUtils
-import androidx.appcompat.app.AppCompatDelegate
 import com.example.financasapp.Mapper.Valores
+import com.example.financasapp.Presenter.OrcamentoPresenter
 import com.example.financasapp.Presenter.PrincipalPresenter
+import com.example.financasapp.R
+import kotlinx.android.synthetic.main.activity_orcamento.*
 import kotlinx.android.synthetic.main.activity_principal.*
 
-class PrincipalActivity : AppCompatActivity() {
+
+class OrcamentoActivity : AppCompatActivity() {
 
     var valores = mutableListOf<Valores>()
-    lateinit var presenter: PrincipalPresenter
+    lateinit var presenter: OrcamentoPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_principal)
-        presenter = PrincipalPresenter(this)
-        presenter.setAdapter(valores)
-        presenter.setButtons()
-        refresh(presenter.setDate(principalData))
+        setContentView(R.layout.activity_orcamento)
+        presenter = OrcamentoPresenter(this)
+        Handler().postDelayed({
+            presenter.setAdapter(valores)
+            presenter.setButtons()
+            presenter.setDate(orcamentoData)
+            super.onResume()
+            getSharedPreferences("dataGeral", Context.MODE_PRIVATE).getString("dataGeral", "")?.let { refresh(it) }
+        }, 1000)
     }
 
     fun refresh(dataSet: String) {
-        principalData.text = dataSet
+        orcamentoData.text = dataSet
         presenter.getLista(dataSet)
     }
 
@@ -39,8 +41,8 @@ class PrincipalActivity : AppCompatActivity() {
         if (!response.isNullOrEmpty()) valores.addAll(response.toMutableList())
         presenter.setAdapter(valores)
         presenter.getDespesas(valores)
-        list.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in))
-        Handler().postDelayed({list.visibility = View.VISIBLE}, 500)
+        list2.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in))
+        Handler().postDelayed({list2.visibility = View.VISIBLE}, 500)
     }
 
     override fun onResume() {
@@ -48,5 +50,4 @@ class PrincipalActivity : AppCompatActivity() {
         getSharedPreferences("dataGeral", Context.MODE_PRIVATE).getString("dataGeral", "")
             ?.let { refresh(it) }
     }
-
 }

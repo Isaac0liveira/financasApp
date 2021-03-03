@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FinancasApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UI.AdicionarActivity"></activity>
+        <activity android:name=".UI.OrcamentoActivity"></activity>
+        <activity android:name=".UI.AdicionarActivity" />
         <activity android:name=".PrincipalActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

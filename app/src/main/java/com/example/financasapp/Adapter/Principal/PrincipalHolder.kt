@@ -1,49 +1,84 @@
 package com.example.financasapp.Adapter.Principal
 
-import android.content.Context
-import android.util.Log
+import android.content.Intent
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
-import android.widget.PopupMenu
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.financasapp.API.Chamada
 import com.example.financasapp.Mapper.Valores
 import com.example.financasapp.PrincipalActivity
-import com.example.financasapp.R
+import com.example.financasapp.UI.AdicionarActivity
 import kotlinx.android.synthetic.main.principal_adapter_item.view.*
 
-class PrincipalHolder(view: View, val activity: PrincipalActivity, val valores: MutableList<Valores>) : RecyclerView.ViewHolder(view), View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
+class PrincipalHolder(view: View, val activity: PrincipalActivity, val valores: MutableList<Valores>) : RecyclerView.ViewHolder(view), View.OnCreateContextMenuListener {
     init {
         view.setOnCreateContextMenuListener(this)
     }
 
     val tipo = view.paTipo
-    val nome = view.paNome
-    val valor = view.paValor
-    val data = view.paData
-    val txtData = view.paTxtData
+    val nome = view.orNome
+    val valor = view.orValor
+    val data = view.orData
+    val txtData = view.orTxtData
     val note = view.paNote
     val id = view.myID
+    val categoria = view.paCategoria
 
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
         valores.get(adapterPosition).tipo?.let {
             if (it == "Dívida" || it == "Dívida Paga") {
-                var myActionItem = menu!!.add("Marcar como Paga")
-                myActionItem?.let { it.setOnMenuItemClickListener(this) }
-                valores.get(adapterPosition).tipo?.let { if (it == "Dívida Paga") myActionItem?.title = "Marcar como Não Paga" }
+                var item1: MenuItem? = null;
+                if(it == "Dívida"){
+                    item1 = menu!!.add("Marcar como Paga")
+                } else {
+                    item1 = menu!!.add("Marcar como NÃO Paga")
+                }
+                item1?.let {
+                    it.setOnMenuItemClickListener {
+                        valores.get(adapterPosition).id?.let { Chamada.chamarMarcarPago(it.toString(), activity) }
+                        true
+                    }
+                }
+
+                var item2 = menu!!.add("Excluir")
+                item2?.let {
+                    it.setOnMenuItemClickListener {
+                        valores.get(adapterPosition).id?.let { Chamada.chamarExcluir(it.toString(), activity) }
+                        true
+                    }
+                }
+
+
+                var item3 = menu!!.add("Atualizar")
+                item3?.let {
+                    it.setOnMenuItemClickListener {
+                        val valores: Valores = valores.get(adapterPosition)
+                        activity.startActivity(Intent(activity.applicationContext, AdicionarActivity().javaClass).putExtra("valores", valores))
+                        true
+                    }
+                }
+
             } else {
-                var myActionItem = menu!!.add("Teste Receita")
+                var item2 = menu!!.add("Excluir")
+                item2?.let {
+                    it.setOnMenuItemClickListener {
+                        valores.get(adapterPosition).id?.let { Chamada.chamarExcluir(it.toString(), activity) }
+                        true
+                    }
+                }
+
+
+                var item3 = menu!!.add("Atualizar")
+                item3?.let {
+                    it.setOnMenuItemClickListener {
+                        val valores: Valores = valores.get(adapterPosition)
+                        activity.startActivity(Intent(activity.applicationContext, AdicionarActivity().javaClass).putExtra("valores", valores))
+                        true
+                    }
+                }
             }
         }
     }
-
-    override fun onMenuItemClick(item: MenuItem?): Boolean {
-        valores.get(adapterPosition).id?.let { Chamada.chamarMarcarPago(it.toString(), activity.applicationContext) }
-        activity.refresh()
-        return true
-    }
-
 
 }

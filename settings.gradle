@@ -1,3 +1,2 @@
 include ':app'
-include ':banco_financas'
 rootProject.name = "financasApp"

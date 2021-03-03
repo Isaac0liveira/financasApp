@@ -10,29 +10,36 @@ import com.example.financasapp.R
 
 class PrincipalAdapter(val valores: MutableList<Valores>, val activity: PrincipalActivity): RecyclerView.Adapter<PrincipalHolder>() {
 
+    var copyValores = mutableListOf<Valores>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PrincipalHolder {
         val view = LayoutInflater.from(activity.applicationContext).inflate(R.layout.principal_adapter_item, parent, false)
-        return PrincipalHolder(view, activity, valores)
+        copyValores.clear()
+        valores.map { i -> if(i.tipo != "Orçamento") copyValores.add(i)}
+        return PrincipalHolder(view, activity, copyValores)
     }
     override fun onBindViewHolder(holder: PrincipalHolder, position: Int) {
-        val map = valores.get(position)
-        holder.tipo.text = map.tipo
-        if(map.tipo == "Dívida" || map.tipo == "Dívida Paga"){
-            holder.txtData.text = "Pagar até:"
-        }else{
-            holder.txtData.text = "Recebe em:"
-        }
-        holder.nome.text = map.nome
-        holder.valor.text = map.valor.toString()
-        holder.data.text = map.data
-        holder.note.text = map.note
-        holder.id.text = map.id.toString()
+            val map = copyValores.get(position)
+            holder.tipo.text = map.tipo
+            if (map.tipo == "Dívida" || map.tipo == "Dívida Paga") {
+                holder.txtData.text = "Pagar até:"
+            } else {
+                holder.txtData.text = "Recebe em:"
+            }
+            holder.nome.text = map.nome
+            holder.valor.text = map.valor.toString()
+            holder.data.text = map.data
+            holder.note.text = map.note
+            holder.id.text = map.id.toString()
+            holder.categoria.text = map.categoria
     }
 
 
 
     override fun getItemCount(): Int {
-        return valores.size
+        var count = 0
+        valores.map { i -> if(i.tipo != "Orçamento") count++}
+        return count
     }
 
 }

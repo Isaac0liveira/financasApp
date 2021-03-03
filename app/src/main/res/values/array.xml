@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="options_array">
+        <item>Aluguel</item>
+        <item>Animal de Estimação</item>
+        <item>Combustível</item>
+        <item>Comida</item>
+        <item>Contas domesticas</item>
+        <item>Educação</item>
+        <item>Financiamento</item>
+        <item>Internet/Comunicação</item>
+        <item>Investimento</item>
+        <item>Lazer</item>
+        <item>Mercado</item>
+        <item>Roupas/Acessórios</item>
+        <item>Saúde</item>
+        <item>Transporte</item>
+        <item>Veículo Pessoal</item>
+        <item>Outros</item>
+    </string-array>
+</resources>
