@@ -22,6 +22,9 @@ import com.example.financasapp.Adapter.Principal.PrincipalAdapter
 import com.example.financasapp.Contrato.Contrato
 import com.example.financasapp.Mapper.Calendario
 import com.example.financasapp.Mapper.Valores
+import com.example.financasapp.Recursos.OnSwipeTouchListener
+import com.example.financasapp.Recursos.OrcamentoSwiper
+import com.example.financasapp.Recursos.Swiper
 import com.example.financasapp.UI.AdicionarActivity
 import com.example.financasapp.UI.OrcamentoActivity
 import io.reactivex.schedulers.Schedulers
@@ -33,13 +36,21 @@ import java.util.*
 class OrcamentoPresenter(val activity: OrcamentoActivity) : Contrato.OrcamentoPresenter {
 
     init {
-        Thread {
             activity.runOnUiThread {
                 activity.window.setStatusBarColor(Color.parseColor("#00CCC5"))
                 activity.supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#005187")))
                 activity.title = "Orçamentos"
+                activity.view2.setOnTouchListener(object: OnSwipeTouchListener(){
+                    override fun onSwipeLeft() {
+                        OrcamentoSwiper(activity).onSwipeLeft()
+                    }
+
+                    override fun onSwipeRight() {
+                        OrcamentoSwiper(activity).onSwipeRight()
+                    }
+                })
+                activity.view2.bringToFront()
             }
-        }.start()
     }
 
     override fun changeActivity(startActivity: Activity, changeActivity: Activity, extra: Any) {
@@ -53,13 +64,11 @@ class OrcamentoPresenter(val activity: OrcamentoActivity) : Contrato.OrcamentoPr
     }
 
     override fun setAdapter(valores: MutableList<Valores>) {
-        Thread {
             activity.runOnUiThread {
                 activity.list2.layoutManager = LinearLayoutManager(activity.applicationContext)
                 val adapter = OrcamentoAdapter(valores, activity)
                 activity.list2.adapter = adapter
             }
-        }.start()
     }
 
     override fun setDate(view: TextView): String {
@@ -83,27 +92,14 @@ class OrcamentoPresenter(val activity: OrcamentoActivity) : Contrato.OrcamentoPr
                     }
 
                 val datePickerDialog =
-                    DatePickerDialog(
-                        activity,
-                        AlertDialog.THEME_HOLO_LIGHT,
-                        setListener,
-                        ano,
-                        mes,
-                        0
-                    )
+                    DatePickerDialog(activity, AlertDialog.THEME_HOLO_LIGHT, setListener, ano, mes, 0)
                 datePickerDialog.datePicker.findViewById<NumberPicker>(
-                    activity.resources.getIdentifier(
-                        "day",
-                        "id",
-                        "android"
-                    )
+                    activity.resources.getIdentifier("day", "id", "android")
                 ).visibility = View.GONE
                 view.setOnClickListener {
-                    Thread {
                         activity.runOnUiThread {
                             datePickerDialog.show()
                         }
-                    }.start()
                 }
             }
         }.start()
@@ -112,13 +108,11 @@ class OrcamentoPresenter(val activity: OrcamentoActivity) : Contrato.OrcamentoPr
     }
 
     override fun setButtons() {
-        Thread {
             activity.runOnUiThread {
                 activity.orBtAdd.setOnClickListener {
                     changeActivity(activity, AdicionarActivity(), "Orçamento")
                 }
             }
-        }.start()
     }
 
 

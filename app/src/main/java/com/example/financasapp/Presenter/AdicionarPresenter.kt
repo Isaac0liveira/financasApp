@@ -33,9 +33,21 @@ class AdicionarPresenter(val activity: AdicionarActivity) : Contrato.AdicionarPr
                 ?.let { dataSet = it }
             activity.getSharedPreferences("tipo", Context.MODE_PRIVATE).getString("tipo", "")
                 ?.let { tipo = it }
-            if (activity.spinner.isVisible) categoria =
-                activity.spinner.selectedItem.toString() else categoria = "Receita"
-            Chamada.chamarAdicionar(activity.txtNome.text.toString(), activity.txtValor.text.toString().toDouble(), activity.txtData.text.toString(), activity.txtNote.text.toString(), tipo, dataSet, categoria, activity)
+            if (activity.spinner.isVisible && activity.spinner.selectedItem != null) categoria = activity.spinner.selectedItem.toString() else categoria = "Receita"
+            if(!activity.txtNome.text.toString().isEmpty() && activity.txtValor.text.toString().isEmpty() && activity.txtData.text.toString().isEmpty() && activity.txtNote.text.toString().isEmpty() && tipo.isEmpty() && categoria.isEmpty()) {
+                Chamada.chamarAdicionar(
+                    activity.txtNome.text.toString(),
+                    activity.txtValor.text.toString().toDouble(),
+                    activity.txtData.text.toString(),
+                    activity.txtNote.text.toString(),
+                    tipo,
+                    dataSet,
+                    categoria,
+                    activity
+                )
+            }else{
+                Toast.makeText(activity.applicationContext, "Dados em falta! Preencha-os", Toast.LENGTH_SHORT).show()
+            }
         }
 
         if (activity.intent.getSerializableExtra("valores") != null) {
@@ -62,7 +74,21 @@ class AdicionarPresenter(val activity: AdicionarActivity) : Contrato.AdicionarPr
                 activity.getSharedPreferences("tipo", Context.MODE_PRIVATE).getString("tipo", "")
                     ?.let { tipo = it }
                 if (activity.spinner.isVisible) categoria = activity.spinner.selectedItem.toString() else categoria = "Receita"
-                Chamada.chamarAtualizar(valores.id.toString(), activity.txtNome.text.toString(), activity.txtValor.text.toString().toDouble(), activity.txtData.text.toString(), activity.txtNote.text.toString(), tipo, dataSet, categoria, activity)
+                if(!(activity.txtNome.text.toString().isEmpty() && activity.txtValor.text.toString().isEmpty() && activity.txtData.text.toString().isEmpty() && activity.txtNote.text.toString().isEmpty() && tipo.isEmpty() && dataSet.isEmpty() && categoria.isEmpty())) {
+                    Chamada.chamarAtualizar(
+                        valores.id.toString(),
+                        activity.txtNome.text.toString(),
+                        activity.txtValor.text.toString().toDouble(),
+                        activity.txtData.text.toString(),
+                        activity.txtNote.text.toString(),
+                        tipo,
+                        dataSet,
+                        categoria,
+                        activity
+                    )
+                }else{
+                    Toast.makeText(activity.applicationContext, "Dados em falta! Preencha-os", Toast.LENGTH_SHORT).show()
+                }
             }
             if (valores.tipo == "Dívida" || valores.tipo == "Dívida Paga") {
                 activity.rdTipo.check(R.id.btDivida)
@@ -95,7 +121,21 @@ class AdicionarPresenter(val activity: AdicionarActivity) : Contrato.AdicionarPr
                 activity.getSharedPreferences("tipo", Context.MODE_PRIVATE).getString("tipo", "")
                     ?.let { tipo = it }
                 if (activity.spinner.isVisible) categoria = activity.spinner.selectedItem.toString() else categoria = "Receita"
-                Chamada.chamarAtualizar(valores.id.toString(), activity.txtNome.text.toString(), activity.txtValor.text.toString().toDouble(), activity.txtData.text.toString(), activity.txtNote.text.toString(), "Orçamento", dataSet, categoria, activity)
+                if(!(activity.txtNome.text.toString().isEmpty() && activity.txtValor.text.toString().isEmpty() && activity.txtData.text.toString().isEmpty() && activity.txtNote.text.toString().isEmpty() && dataSet.isEmpty() && categoria.isEmpty())) {
+                    Chamada.chamarAtualizar(
+                        valores.id.toString(),
+                        activity.txtNome.text.toString(),
+                        activity.txtValor.text.toString().toDouble(),
+                        activity.txtData.text.toString(),
+                        activity.txtNote.text.toString(),
+                        "Orçamento",
+                        dataSet,
+                        categoria,
+                        activity
+                    )
+                }else{
+                    Toast.makeText(activity.applicationContext, "Dados em falta! Preencha-os", Toast.LENGTH_SHORT).show()
+                }
             }
             activity.rdTipo.visibility = View.GONE
         }

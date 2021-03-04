@@ -1,32 +1,28 @@
 package com.example.financasapp.Presenter
 
-import OnSwipeTouchListener
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.androidnetworking.AndroidNetworking
 import com.example.financasapp.API.Chamada
 import com.example.financasapp.Adapter.Principal.PrincipalAdapter
 import com.example.financasapp.Contrato.Contrato
 import com.example.financasapp.Mapper.Calendario
 import com.example.financasapp.Mapper.Valores
 import com.example.financasapp.PrincipalActivity
+import com.example.financasapp.Recursos.OnSwipeTouchListener
+import com.example.financasapp.Recursos.Swiper
 import com.example.financasapp.UI.AdicionarActivity
 import com.example.financasapp.UI.OrcamentoActivity
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_principal.*
 import java.util.*
-import java.util.logging.Handler
 
 
 class PrincipalPresenter(val activity: PrincipalActivity) :
@@ -35,6 +31,16 @@ class PrincipalPresenter(val activity: PrincipalActivity) :
 
     init {
         activity.supportActionBar?.hide()
+        activity.view.setOnTouchListener(object: OnSwipeTouchListener(){
+            override fun onSwipeLeft() {
+                Swiper(activity).onSwipeLeft()
+            }
+
+            override fun onSwipeRight() {
+                Swiper(activity).onSwipeRight()
+            }
+        })
+        activity.view.bringToFront()
     }
 
     override fun changeActivity(startActivity: Activity, changeActivity: Activity) {
@@ -94,6 +100,8 @@ class PrincipalPresenter(val activity: PrincipalActivity) :
             changeActivity(activity, OrcamentoActivity())
         }
     }
+
+
 
 
     override fun setAdapter(valores: MutableList<Valores>) {

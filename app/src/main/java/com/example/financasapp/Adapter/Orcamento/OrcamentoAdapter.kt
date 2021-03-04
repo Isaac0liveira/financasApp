@@ -8,14 +8,14 @@ import com.example.financasapp.Adapter.Principal.PrincipalHolder
 import com.example.financasapp.Mapper.Valores
 import com.example.financasapp.PrincipalActivity
 import com.example.financasapp.R
+import com.example.financasapp.Recursos.OnSwipeTouchListener
+import com.example.financasapp.Recursos.OrcamentoSwiper
+import com.example.financasapp.Recursos.Swiper
 import com.example.financasapp.UI.OrcamentoActivity
 
 class OrcamentoAdapter(var valores: MutableList<Valores>, val activity: OrcamentoActivity): RecyclerView.Adapter<OrcamentoHolder>() {
 
     var copyValores = mutableListOf<Valores>()
-
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrcamentoHolder {
         val view = LayoutInflater.from(activity.applicationContext).inflate(R.layout.orcamento_adapter_item, parent, false)

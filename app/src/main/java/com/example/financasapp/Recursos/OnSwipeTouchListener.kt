@@ -1,3 +1,5 @@
+package com.example.financasapp.Recursos
+
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -56,5 +58,4 @@ open class OnSwipeTouchListener : View.OnTouchListener {
     open fun onSwipeRight() {}
 
     open fun onSwipeLeft() {}
-
 }

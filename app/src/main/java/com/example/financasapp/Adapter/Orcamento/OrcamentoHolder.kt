@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.financasapp.API.Chamada
 import com.example.financasapp.Mapper.Valores
 import com.example.financasapp.PrincipalActivity
+import com.example.financasapp.Recursos.OnSwipeTouchListener
+import com.example.financasapp.Recursos.OrcamentoSwiper
 import com.example.financasapp.UI.AdicionarActivity
 import com.example.financasapp.UI.OrcamentoActivity
 import kotlinx.android.synthetic.main.orcamento_adapter_item.view.*
@@ -19,6 +21,15 @@ import kotlinx.android.synthetic.main.principal_adapter_item.view.orValor
 class OrcamentoHolder(view: View, val activity: OrcamentoActivity, val valores: MutableList<Valores>) : RecyclerView.ViewHolder(view), View.OnCreateContextMenuListener {
     init {
         view.setOnCreateContextMenuListener(this)
+        view.setOnTouchListener(object: OnSwipeTouchListener(){
+            override fun onSwipeLeft() {
+                OrcamentoSwiper(activity).onSwipeLeft()
+            }
+
+            override fun onSwipeRight() {
+                OrcamentoSwiper(activity).onSwipeRight()
+            }
+        })
     }
 
     val tipo = view.orTipo

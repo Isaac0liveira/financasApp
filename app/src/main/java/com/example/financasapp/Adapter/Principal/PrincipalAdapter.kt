@@ -1,12 +1,13 @@
 package com.example.financasapp.Adapter.Principal
 
 import android.content.Context
-import android.util.Log
 import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.financasapp.Mapper.Valores
 import com.example.financasapp.PrincipalActivity
 import com.example.financasapp.R
+import com.example.financasapp.Recursos.OnSwipeTouchListener
+import com.example.financasapp.Recursos.Swiper
 
 class PrincipalAdapter(val valores: MutableList<Valores>, val activity: PrincipalActivity): RecyclerView.Adapter<PrincipalHolder>() {
 

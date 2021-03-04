@@ -4,10 +4,6 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
-import android.util.Log
-import android.view.ContextMenu
-import android.view.MenuInflater
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatDelegate
